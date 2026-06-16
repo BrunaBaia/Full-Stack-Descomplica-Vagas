@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalhes da Entrevista</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <style>
+        .form-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .salvar-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .salvar-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>🚀 Destrava Vagas</h2>
+            </div>
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="minhasvagas.html">
+                    Minhas Vagas
+                </a>
+
+                <a href="detalhesdavaga.html">
+                    Detalhes da Vaga
+                </a>
+
+                <a href="entrevistas.html">
+                    Entrevistas
+                </a>
+
+                <a href="detalhesdaentrevista.html" class="active">
+                    Detalhes da Entrevista
+                </a>
+
+                <a href="comparadordevagas.html">
+                    Comparador de Vagas
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Detalhes da Entrevista</h1>
+                    <p>Registre sua experiência no processo seletivo</p>
+                </div>
+
+            </header>
+
+            <div class="form-card">
+
+                <div class="form-group">
+                    <label>Empresa</label>
+                    <input type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Cargo</label>
+                    <input type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Nível da vaga</label>
+
+                    <select>
+                        <option></option>
+                        <option>Estágio</option>
+                        <option>Trainee</option>
+                        <option>Júnior</option>
+                        <option>Pleno</option>
+                        <option>Sênior</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Perguntas feitas pelo recrutador</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Como foram os testes?</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Benefícios oferecidos</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Remuneração</label>
+                    <input type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Dificuldade da entrevista</label>
+
+                    <select>
+                        <option></option>
+                        <option>Muito Fácil</option>
+                        <option>Fácil</option>
+                        <option>Média</option>
+                        <option>Difícil</option>
+                        <option>Muito Difícil</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Como foi sua experiência?</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Dicas para futuros candidatos</label>
+                    <textarea></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Resultado</label>
+
+                    <select>
+                        <option></option>
+                        <option>Em andamento</option>
+                        <option>Aprovado</option>
+                        <option>Reprovado</option>
+                    </select>
+
+                </div>
+
+                <button class="salvar-btn">
+                    Salvar Experiência
+                </button>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrevistas</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>🚀 Destrava Vagas</h2>
+            </div>
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    Início
+                </a>
+
+                <a href="minhasvagas.html">
+                    Minhas Vagas
+                </a>
+
+                <a href="entrevistas.html" class="active">
+                    Entrevistas
+                </a>
+
+                <a href="relatorios.html">
+                    Relatórios
+                </a>
+
+                <a href="configuracoes.html">
+                    Configurações
+                </a>
+
+            </nav>
+
+            <li onclick="window.location.href='dashboard.html'">
+                Início
+            </li>
+
+            <li>
+                Minhas Vagas
+            </li>
+
+            <li class="active">
+                Entrevistas
+            </li>
+
+            <li>
+                Calendário
+            </li>
+
+            <li>
+                Relatórios
+            </li>
+
+            <li>
+                Configurações
+            </li>
+
+            <li onclick="logout()">
+                Sair
+            </li>
+
+            </ul>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1>Entrevistas</h1>
+
+                    <p>
+                        Gerencie suas entrevistas
+                    </p>
+
+            </header>
+
+            <button>
+                + Nova Entrevista
+            </button>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Empresa</h3>
+
+            <p>Nenhuma entrevista cadastrada</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Data</h3>
+
+            <p>--/--/----</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Horário</h3>
+
+            <p>--:--</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Status</h3>
+
+            <p>Pendente</p>
+
+        </div>
+
+    </div>
+
+    <div class="box">
+
+        <h2>Próximas Entrevistas</h2>
+
+        <div id="listaEntrevistas">
+            Carregando...
+        </div>
+
+    </div>
+
+    </main>
+
+    </div>
+
+    <script>
+
+        const user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href = "index.html";
+        }
+
+        async function carregarEntrevistas() {
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `http://localhost:3000/vagas/${user}`
+                    );
+
+                const vagas =
+                    await resposta.json();
+
+                const lista =
+                    document.getElementById("listaEntrevistas");
+
+                lista.innerHTML = "";
+
+                const entrevistas =
+                    vagas.filter(vaga =>
+                        vaga.data_entrevista
+                    );
+
+                if (entrevistas.length === 0) {
+
+                    lista.innerHTML =
+                        "<p>Nenhuma entrevista agendada.</p>";
+
+                    return;
+                }
+
+                entrevistas.forEach(vaga => {
+
+                    lista.innerHTML += `
+
+                <div style="
+                    padding:15px;
+                    margin-bottom:10px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                ">
+
+                    <strong>${vaga.empresa}</strong><br>
+
+                    Cargo: ${vaga.cargo}<br>
+
+                    Data: ${vaga.data_entrevista}<br>
+
+                    Status: ${vaga.status}
+
+                </div>
+
+            `;
+
+                });
+
+            }
+
+            catch (erro) {
+
+                console.log(erro);
+
+            }
+
+        }
+
+        carregarEntrevistas();
+
+    </script>
+
+</body>
+
+</html>

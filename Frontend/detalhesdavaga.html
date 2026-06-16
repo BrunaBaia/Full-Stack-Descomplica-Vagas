@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Vaga</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .vaga {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        }
+
+        .vaga p {
+            margin: 8px 0;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .excluir {
+            background: #dc2626;
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Detalhes das Vagas</h1>
+
+    <div id="listaVagas">
+
+        Carregando vagas...
+
+    </div>
+
+    <br>
+
+    <button onclick="window.location.href='dashboard.html'">
+        Voltar
+    </button>
+
+    <script>
+
+        const usuario_email = localStorage.getItem("user");
+
+        if (!usuario_email) {
+            window.location.href = "index.html";
+        }
+
+        async function carregarVagas() {
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `http://localhost:3000/vagas/${usuario_email}`
+                    );
+
+                const vagas =
+                    await resposta.json();
+
+                const lista =
+                    document.getElementById("listaVagas");
+
+                lista.innerHTML = "";
+
+                if (vagas.length === 0) {
+
+                    lista.innerHTML =
+                        "<p>Nenhuma vaga cadastrada.</p>";
+
+                    return;
+                }
+
+                vagas.forEach(vaga => {
+
+                    lista.innerHTML += `
+                    
+                    <div class="vaga">
+
+                        <p><strong>Empresa:</strong> ${vaga.empresa}</p>
+
+                        <p><strong>Cargo:</strong> ${vaga.cargo}</p>
+
+                        <p><strong>Status:</strong> ${vaga.status}</p>
+
+                        <p><strong>Data candidatura:</strong> ${vaga.data_candidatura || "-"}</p>
+
+                        <p><strong>Data entrevista:</strong> ${vaga.data_entrevista || "-"}</p>
+
+                        <p><strong>Link:</strong> ${vaga.link_vaga || "-"}</p>
+
+                        <p><strong>Observações:</strong> ${vaga.observacoes || "-"}</p>
+
+                        <button onclick="excluirVaga(${vaga.id})">
+                            Excluir
+                        </button>
+
+                    </div>
+
+                    `;
+
+                });
+
+            }
+
+            catch (erro) {
+
+                console.log(erro);
+
+                document.getElementById("listaVagas")
+                    .innerHTML =
+                    "<p>Erro ao carregar vagas ❌</p>";
+
+            }
+
+        }
+
+        async function excluirVaga(id) {
+
+            if (!confirm("Deseja excluir esta vaga?")) {
+                return;
+            }
+
+            await fetch(
+                `http://localhost:3000/vaga/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            carregarVagas();
+
+        }
+
+        carregarVagas();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+
+<body>
+
+    <h1>Bem-vindo 🚀</h1>
+
+    <p id="usuario"></p>
+
+    <button onclick="logout()">Sair</button>
+
+    <script>
+
+        // PEGAR USUÁRIO
+        const user = localStorage.getItem("user");
+
+        // PROTEÇÃO
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+        // MOSTRAR USUÁRIO
+        document.getElementById("usuario").innerText =
+            "Logado como: " + user;
+
+        // LOGOUT
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "index.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

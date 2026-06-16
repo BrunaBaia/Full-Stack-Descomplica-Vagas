@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard - Destrava Vagas</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="logo">
+        <h2>🚀 Destrava Vagas</h2>
+      </div>
+
+      <nav class="menu">
+
+        <a href="dashboard.html" class="active">
+          <i class="fa-solid fa-house"></i>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="minhasvagas.html">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Minhas Vagas</span>
+        </a>
+
+        <a href="detalhesdavaga.html">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>Detalhes da Vaga</span>
+        </a>
+
+        <a href="entrevistas.html">
+          <i class="fa-solid fa-calendar-days"></i>
+          <span>Entrevistas</span>
+        </a>
+
+        <a href="detalhesdaentrevista.html">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>Detalhes da Entrevista</span>
+        </a>
+
+        <a href="comparadordevagas.html">
+          <i class="fa-solid fa-scale-balanced"></i>
+          <span>Comparador de Vagas</span>
+        </a>
+
+        <a href="relatorios.html">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Relatórios</span>
+        </a>
+
+        <a href="configuracoes.html">
+          <i class="fa-solid fa-gear"></i>
+          <span>Configurações</span>
+        </a>
+
+      </nav>
+
+      <button class="logout-btn" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Sair
+      </button>
+
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+
+      <!-- TOPO -->
+      <header class="topbar">
+
+        <div>
+          <h1>Dashboard</h1>
+          <p>Acompanhe seus processos seletivos</p>
+        </div>
+
+        <div class="perfil">
+
+          <img src="https://i.pravatar.cc/100" alt="Usuário">
+
+          <span id="usuario"></span>
+
+        </div>
+
+      </header>
+
+      <!-- CARDS -->
+      <section class="cards">
+
+        <div class="card blue">
+          <i class="fa-solid fa-briefcase"></i>
+          <h2 id="totalVagas">0</h2>
+          <p>Candidaturas</p>
+        </div>
+
+        <div class="card orange">
+          <i class="fa-solid fa-calendar-check"></i>
+          <h2 id="totalEntrevistas">0</h2>
+          <p>Entrevistas</p>
+        </div>
+
+        <div class="card blue">
+          <i class="fa-solid fa-spinner"></i>
+          <h2 id="emAndamento">0</h2>
+          <p>Em andamento</p>
+        </div>
+
+        <div class="card orange">
+          <i class="fa-solid fa-check"></i>
+          <h2 id="aprovadas">0</h2>
+          <p>Aprovadas</p>
+        </div>
+
+      </section>
+
+      <!-- VISÃO GERAL -->
+      <section class="overview">
+
+        <div class="overview-card">
+
+          <h3>Visão Geral</h3>
+
+          <p>
+            Aqui você acompanha todas as suas candidaturas,
+            entrevistas e processos seletivos em um só lugar.
+          </p>
+
+        </div>
+
+        <div class="overview-card">
+
+          <h3>Status do Processo</h3>
+
+          <div class="status-item">
+            <span>Em análise</span>
+            <strong id="statusAnalise">0</strong>
+          </div>
+
+          <div class="status-item">
+            <span>Entrevista marcada</span>
+            <strong id="statusEntrevista">0</strong>
+          </div>
+
+          <div class="status-item">
+            <span>Finalizados</span>
+            <strong id="statusFinalizados">0</strong>
+          </div>
+
+        </div>
+
+        <div class="overview-card">
+
+          <h3>Próximas Entrevistas</h3>
+
+          <p>Nenhuma entrevista agendada</p>
+
+        </div>
+
+      </section>
+
+      <!-- ÁREA CENTRAL -->
+      <section class="content-grid">
+
+        <!-- VAGAS -->
+        <div class="box">
+
+          <div class="box-header">
+            <h3>Candidaturas recentes</h3>
+          </div>
+
+          <div id="ultimasVagas">
+            Carregando vagas...
+          </div>
+
+        </div>
+
+        <!-- ATIVIDADES -->
+        <div class="box">
+
+          <div class="box-header">
+            <h3>Atividades recentes</h3>
+          </div>
+
+          <div class="atividade">
+            <p>Nenhuma atividade registrada</p>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("usuario").innerText = user;
+
+    function logout() {
+      localStorage.removeItem("user");
+      localStorage.removeItem("email");
+      window.location.href = "index.html";
+    }
+
+    async function carregarDashboard() {
+
+      try {
+
+        const resposta =
+          await fetch(`http://localhost:3000/vagas/${user}`);
+
+        const vagas =
+          await resposta.json();
+
+        // Cards superiores
+
+        document.getElementById("totalVagas").innerText =
+          vagas.length;
+
+        const entrevistas =
+          vagas.filter(v => v.data_entrevista);
+
+        document.getElementById("totalEntrevistas").innerText =
+          entrevistas.length;
+
+        const andamento =
+          vagas.filter(v => v.status === "Em andamento");
+
+        document.getElementById("emAndamento").innerText =
+          andamento.length;
+
+        const aprovadas =
+          vagas.filter(v => v.status === "Aprovada");
+
+        document.getElementById("aprovadas").innerText =
+          aprovadas.length;
+
+        // Status
+
+        document.getElementById("statusAnalise").innerText =
+          andamento.length;
+
+        document.getElementById("statusEntrevista").innerText =
+          entrevistas.length;
+
+        document.getElementById("statusFinalizados").innerText =
+          aprovadas.length;
+
+        // Últimas vagas
+
+        const lista =
+          document.getElementById("ultimasVagas");
+
+        lista.innerHTML = "";
+
+        if (vagas.length === 0) {
+
+          lista.innerHTML = `
+        <div class="vaga-item">
+          <strong>Nenhuma candidatura ainda</strong>
+          <span>As vagas aparecerão aqui</span>
+        </div>
+      `;
+
+          return;
+        }
+
+        vagas.slice(0, 5).forEach(vaga => {
+
+          lista.innerHTML += `
+        <div class="vaga-item">
+          <strong>${vaga.empresa}</strong><br>
+          <span>${vaga.cargo}</span>
+        </div>
+      `;
+
+        });
+
+      }
+
+      catch (erro) {
+
+        console.log("Erro ao carregar dashboard:", erro);
+
+      }
+
+    }
+
+    carregarDashboard();
+
+  </script>
+
+</body>
+
+</html>

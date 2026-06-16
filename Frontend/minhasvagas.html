@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minhas Vagas - Destrava Vagas</title>
+
+    <link rel="stylesheet" href="minhas-vagas.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topo h1 {
+            color: #1e293b;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="topo">
+            <h1>🚀 Minhas Vagas</h1>
+
+            <a href="dashboard.html">
+                <button>Voltar</button>
+            </a>
+        </div>
+
+        <div class="card">
+
+            <div class="form-group">
+                <label>Empresa</label>
+                <input type="text" id="empresa">
+            </div>
+
+            <div class="form-group">
+                <label>Cargo</label>
+                <input type="text" id="cargo">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+
+                <select id="status">
+                    <option value="">Selecione</option>
+                    <option value="Aplicada">Aplicada</option>
+                    <option value="Em andamento">Em andamento</option>
+                    <option value="Entrevista">Entrevista</option>
+                    <option value="Aprovada">Aprovada</option>
+                    <option value="Rejeitada">Rejeitada</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Data da candidatura</label>
+                <input type="date" id="data_candidatura">
+            </div>
+
+            <div class="form-group">
+                <label>Data da entrevista</label>
+                <input type="date" id="data_entrevista">
+            </div>
+
+            <div class="form-group">
+                <label>Link da vaga</label>
+                <input type="text" id="link_vaga">
+            </div>
+
+            <div class="form-group">
+                <label>Observações</label>
+                <textarea id="observacoes"></textarea>
+            </div>
+
+            <button onclick="salvarVaga()">
+                Salvar Vaga
+            </button>
+
+            <p id="mensagem"></p>
+
+            <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a href="detalhesdavaga.html">
+                    <button type="button">
+                        Ver Detalhes da Vaga
+                    </button>
+                </a>
+
+                <a href="entrevistas.html">
+                    <button type="button">
+                        Entrevistas
+                    </button>
+                </a>
+
+                <a href="detalhesentrevistas.html">
+                    <button type="button">
+                        Detalhes da Entrevista
+                    </button>
+                </a>
+
+                <a href="comparadordevagas.html">
+                    <button type="button">
+                        Comparador de Vagas
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const usuario_email =
+            localStorage.getItem("user");
+
+        if (!usuario_email) {
+            window.location.href = "index.html";
+        }
+
+        async function salvarVaga() {
+
+            const dados = {
+
+                empresa:
+                    document.getElementById("empresa").value,
+
+                cargo:
+                    document.getElementById("cargo").value,
+
+                status:
+                    document.getElementById("status").value,
+
+                data_candidatura:
+                    document.getElementById("data_candidatura").value,
+
+                data_entrevista:
+                    document.getElementById("data_entrevista").value,
+
+                link_vaga:
+                    document.getElementById("link_vaga").value,
+
+                observacoes:
+                    document.getElementById("observacoes").value,
+
+                usuario_email
+            };
+
+            try {
+
+                const resposta =
+                    await fetch("http://localhost:3000/vagas", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(dados)
+
+                    });
+
+                const resultado =
+                    await resposta.json();
+
+                document.getElementById("mensagem")
+                    .innerText = resultado.mensagem;
+
+            }
+
+            catch (erro) {
+
+                console.log(erro);
+
+                document.getElementById("mensagem")
+                    .innerText = "Erro ao conectar ❌";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

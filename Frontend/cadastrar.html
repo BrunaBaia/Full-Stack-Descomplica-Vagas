@@ -1,0 +1,125 @@
+Vou enviar os códigos por aqui:
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="cadastro-page">
+
+    <div class="form-container">
+
+        <div class="form-box">
+
+            <h2>Criar Conta</h2>
+
+            <form id="registerForm">
+
+                <!-- 🔹 DADOS PESSOAIS -->
+                <h3>Dados pessoais</h3>
+
+                <input id="nome" type="text" placeholder="Digite seu nome completo" required>
+
+                <div class="grid-2">
+
+                    <!-- ✅ DATA DIGITÁVEL -->
+                    <input id="dataNascimento" type="text" placeholder="Data de nascimento (dd/mm/aaaa)" required>
+
+                    <input id="cpf" type="text" placeholder="Digite seu CPF" required>
+
+                </div>
+
+                <div class="grid-2">
+
+                    <select id="genero">
+                        <option value="">Gênero</option>
+                        <option>Feminino</option>
+                        <option>Masculino</option>
+                        <option>Outro</option>
+                    </select>
+
+                    <select id="cor">
+                        <option value="">Cor</option>
+                        <option>Branca</option>
+                        <option>Preta</option>
+                        <option>Parda</option>
+                        <option>Amarela</option>
+                        <option>Indígena</option>
+                    </select>
+
+                </div>
+
+                <!-- 🔹 ENDEREÇO -->
+                <h3>Endereço</h3>
+
+                <div class="grid-2">
+                    <input id="pais" type="text" placeholder="Digite seu país">
+                    <input id="estado" type="text" placeholder="Estado">
+                </div>
+
+                <div class="grid-2">
+                    <input id="cidade" type="text" placeholder="Cidade">
+                    <input id="cep" type="text" placeholder="CEP">
+                </div>
+
+                <input id="endereco" type="text" placeholder="Endereço completo">
+
+                <!-- 🔹 ACADÊMICO -->
+                <h3>Dados Acadêmicos</h3>
+
+                <div class="grid-2">
+                    <input id="instituicao" type="text" placeholder="Instituição">
+
+                    <input id="curso" type="text" placeholder="Curso / Disciplina">
+                </div>
+
+                <div class="grid-2">
+
+                    <input id="periodo" type="text" placeholder="Período">
+
+                    <!-- ✅ PREVISÃO FORMATURA DIGITÁVEL -->
+                    <input id="formatura" type="text" placeholder="Previsão de formatura (dd/mm/aaaa)">
+
+                </div>
+
+                <!-- 🔹 OBJETIVO -->
+                <h3>Objetivo</h3>
+
+                <input id="vaga" type="text" placeholder="Vaga desejada">
+
+                <!-- 🔹 LOGIN -->
+                <h3>Dados de acesso</h3>
+
+                <input id="emailCadastro" type="email" placeholder="Digite seu e-mail" required>
+
+                <input id="senhaCadastro" type="password" placeholder="Crie uma senha" required>
+
+                <!-- ✅ CONFIRMAR SENHA -->
+                <input id="confirmarSenha" type="password" placeholder="Confirme sua senha" required>
+
+                <button type="submit">
+                    Cadastrar
+                </button>
+
+            </form>
+
+            <!-- 🔔 MENSAGEM -->
+            <p id="mensagem"></p>
+
+            <!-- 🔙 VOLTAR -->
+            <p class="voltar">
+                Já tem conta? <a href="index.html">Fazer login</a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Destrava Vagas - Comparador</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>🚀 Destrava Vagas</h2>
+            </div>
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Início</span>
+                </a>
+
+                <a href="minhasvagas.html">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Minhas Vagas</span>
+                </a>
+
+                <a href="entrevistas.html">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Entrevistas</span>
+                </a>
+
+                <a href="comparadordevagas.html" class="active">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Comparador</span>
+                </a>
+
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
+
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Sair
+            </button>
+
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Comparador de Vagas</h1>
+                    <p>Compare oportunidades lado a lado</p>
+                </div>
+
+                <button class="btn-add">
+                    + Adicionar Vaga
+                </button>
+
+            </header>
+
+            <!-- TABELA -->
+            <div class="box">
+
+                <div style="margin-bottom:20px; display:flex; gap:15px;">
+
+                    <select id="vaga1" style="padding:10px;">
+                        <option value="">Selecione a Vaga A</option>
+                    </select>
+
+                    <select id="vaga2" style="padding:10px;">
+                        <option value="">Selecione a Vaga B</option>
+                    </select>
+
+                    <button onclick="compararVagas()">
+                        Comparar
+                    </button>
+
+                </div>
+
+                <table class="comparador-table">
+
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Vaga A</th>
+                            <th>Vaga B</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Empresa</td>
+                            <td id="empresa1">-</td>
+                            <td id="empresa2">-</td>
+                        </tr>
+
+                        <tr>
+                            <td>Cargo</td>
+                            <td id="cargo1">-</td>
+                            <td id="cargo2">-</td>
+                        </tr>
+
+                        <tr>
+                            <td>Status</td>
+                            <td id="status1">-</td>
+                            <td id="status2">-</td>
+                        </tr>
+
+                        <tr>
+                            <td>Data da candidatura</td>
+                            <td id="candidatura1">-</td>
+                            <td id="candidatura2">-</td>
+                        </tr>
+
+                        <tr>
+                            <td>Data da entrevista</td>
+                            <td id="entrevista1">-</td>
+                            <td id="entrevista2">-</td>
+                        </tr>
+
+                        <tr>
+                            <td>Observações</td>
+                            <td id="obs1">-</td>
+                            <td id="obs2">-</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        // PROTEÇÃO
+        const user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+        let vagas = [];
+
+        async function carregarVagas() {
+
+            try {
+
+                const resposta =
+                    await fetch(`http://localhost:3000/vagas/${user}`);
+
+                vagas = await resposta.json();
+
+                const select1 =
+                    document.getElementById("vaga1");
+
+                const select2 =
+                    document.getElementById("vaga2");
+
+                vagas.forEach((vaga, index) => {
+
+                    const option1 =
+                        document.createElement("option");
+
+                    option1.value = index;
+                    option1.text =
+                        `${vaga.empresa} - ${vaga.cargo}`;
+
+                    select1.appendChild(option1);
+
+                    const option2 =
+                        document.createElement("option");
+
+                    option2.value = index;
+                    option2.text =
+                        `${vaga.empresa} - ${vaga.cargo}`;
+
+                    select2.appendChild(option2);
+
+                });
+
+            }
+
+            catch (erro) {
+
+                console.log("Erro ao carregar vagas:", erro);
+
+            }
+
+        }
+
+        function compararVagas() {
+
+            const vagaA =
+                vagas[document.getElementById("vaga1").value];
+
+            const vagaB =
+                vagas[document.getElementById("vaga2").value];
+
+            if (!vagaA || !vagaB) {
+
+                alert("Selecione duas vagas.");
+
+                return;
+            }
+
+            document.getElementById("empresa1").innerText =
+                vagaA.empresa || "-";
+
+            document.getElementById("empresa2").innerText =
+                vagaB.empresa || "-";
+
+            document.getElementById("cargo1").innerText =
+                vagaA.cargo || "-";
+
+            document.getElementById("cargo2").innerText =
+                vagaB.cargo || "-";
+
+            document.getElementById("status1").innerText =
+                vagaA.status || "-";
+
+            document.getElementById("status2").innerText =
+                vagaB.status || "-";
+
+            document.getElementById("candidatura1").innerText =
+                vagaA.data_candidatura || "-";
+
+            document.getElementById("candidatura2").innerText =
+                vagaB.data_candidatura || "-";
+
+            document.getElementById("entrevista1").innerText =
+                vagaA.data_entrevista || "-";
+
+            document.getElementById("entrevista2").innerText =
+                vagaB.data_entrevista || "-";
+
+            document.getElementById("obs1").innerText =
+                vagaA.observacoes || "-";
+
+            document.getElementById("obs2").innerText =
+                vagaB.observacoes || "-";
+
+        }
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href = "index.html";
+
+        }
+
+        carregarVagas();
+
+    </script>
+
+</body>
+
+</html>

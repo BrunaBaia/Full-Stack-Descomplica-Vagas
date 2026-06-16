@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>🚀 Destrava Vagas</h2>
+            </div>
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="minhasvagas.html">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Minhas Vagas</span>
+                </a>
+
+                <a href="entrevistas.html">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Entrevistas</span>
+                </a>
+
+                <a href="comparadordevagas.html">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>Comparador</span>
+                </a>
+
+                <a href="relatorios.html" class="active">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Relatórios</span>
+                </a>
+
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">
+                Sair
+            </button>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Relatórios</h1>
+                    <p>Indicadores dos seus processos seletivos</p>
+                </div>
+
+            </header>
+
+            <section class="cards">
+
+                <div class="card blue">
+                    <h2 id="totalVagas">0</h2>
+                    <p>Candidaturas</p>
+                </div>
+
+                <div class="card orange">
+                    <h2 id="totalEntrevistas">0</h2>
+                    <p>Entrevistas</p>
+                </div>
+
+                <div class="card blue">
+                    <h2 id="totalAprovadas">0</h2>
+                    <p>Aprovadas</p>
+                </div>
+
+                <div class="card orange">
+                    <h2 id="totalRejeitadas">0</h2>
+                    <p>Rejeitadas</p>
+                </div>
+
+            </section>
+
+            <div class="box">
+
+                <h2>Resumo Geral</h2>
+
+                <p>
+                    Taxa de sucesso:
+                    <strong id="taxaSucesso">0%</strong>
+                </p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("email");
+
+            window.location.href = "index.html";
+
+        }
+
+        async function carregarRelatorios() {
+
+            try {
+
+                const resposta =
+                    await fetch(`http://localhost:3000/vagas/${user}`);
+
+                const vagas =
+                    await resposta.json();
+
+                const entrevistas =
+                    vagas.filter(v => v.data_entrevista);
+
+                const aprovadas =
+                    vagas.filter(v =>
+                        v.status === "Aprovada"
+                    );
+
+                const rejeitadas =
+                    vagas.filter(v =>
+                        v.status === "Rejeitada"
+                    );
+
+                document.getElementById("totalVagas").innerText =
+                    vagas.length;
+
+                document.getElementById("totalEntrevistas").innerText =
+                    entrevistas.length;
+
+                document.getElementById("totalAprovadas").innerText =
+                    aprovadas.length;
+
+                document.getElementById("totalRejeitadas").innerText =
+                    rejeitadas.length;
+
+                const taxa =
+                    vagas.length > 0
+                        ? ((aprovadas.length / vagas.length) * 100).toFixed(1)
+                        : 0;
+
+                document.getElementById("taxaSucesso").innerText =
+                    taxa + "%";
+
+            }
+
+            catch (erro) {
+
+                console.log(erro);
+
+            }
+
+        }
+
+        carregarRelatorios();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTAINER */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 🔵 LADO ESQUERDO */
+.left {
+    width: 50%;
+    background: linear-gradient(135deg, #2563EB, #1E40AF);
+    color: white;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.titulo {
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.destaque {
+    color: #f97316;
+}
+
+.impacto {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #e5e7eb;
+}
+
+.description {
+    font-size: 14px;
+    color: #d1d5db;
+    margin-top: 15px;
+}
+
+/* ⚪ LADO DIREITO */
+.right {
+    width: 50%;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 🔲 FORM */
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 380px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* TÍTULOS */
+.form-box h2 {
+    margin-bottom: 20px;
+}
+
+.form-box h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #1E40AF;
+    font-size: 14px;
+}
+
+/* GRID */
+.grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-2 {
+    display: flex;
+    gap: 10px;
+}
+
+/* 🔥 AJUSTE AQUI (ALINHAMENTO CORRETO) */
+.grid-2>* {
+    flex: 1;
+}
+
+/* INPUTS (GERAL) */
+form input,
+form select {
+    width: 100%;
+    /* 🔥 corrigido */
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s;
+    box-sizing: border-box;
+    /* 🔥 corrigido */
+}
+
+/* FOCO */
+form input:focus,
+form select:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.4);
+}
+
+/* BOTÃO PADRÃO */
+button {
+    width: 50%;
+    padding: 12px;
+    background: linear-gradient(135deg, #2563EB, #1E40AF);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+
+    display: block;
+    /* 👈 adiciona */
+    margin: 20px auto;
+    /* 👈 CENTRALIZA */
+}
+
+/* ===== LOGIN ===== */
+
+/* inputs arredondados só no login */
+.right .form-box input {
+    border-radius: 25px;
+    padding: 12px 18px;
+}
+
+/* botão laranja */
+.right .form-box .login-btn {
+    background: linear-gradient(90deg, #f97316, #ea580c);
+    border-radius: 25px;
+}
+
+/* remove azul padrão */
+.right .form-box button {
+    background: none;
+}
+
+/* MENSAGEM */
+#mensagem {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
+}
+
+/* LINK */
+a {
+    color: #2563EB;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* ===== CADASTRO ===== */
+
+.cadastro-page {
+    background: #f5f5f5;
+    padding: 40px 0;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-page .form-container {
+    display: block;
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.cadastro-page .form-box {
+    width: 90%;
+    max-width: none;
+    margin: 0;
+    box-shadow: none;
+    text-align: left;
+}
+
+.cadastro-page h3,
+.cadastro-page p {
+    text-align: left;
+}
+
+.cadastro-page .form-box h2,
+.cadastro-page .voltar {
+    text-align: center;
+}
