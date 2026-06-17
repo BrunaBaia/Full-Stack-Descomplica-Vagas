@@ -1,19 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Entrevistas</title>
 
+    ```
     <link rel="stylesheet" href="dashboard.css">
+    ```
+
 </head>
 
 <body>
 
+    ```
     <div class="dashboard-container">
 
+        <!-- SIDEBAR -->
         <aside class="sidebar">
 
             <div class="logo">
@@ -44,105 +49,65 @@
 
             </nav>
 
-            <li onclick="window.location.href='dashboard.html'">
-                Início
-            </li>
-
-            <li>
-                Minhas Vagas
-            </li>
-
-            <li class="active">
-                Entrevistas
-            </li>
-
-            <li>
-                Calendário
-            </li>
-
-            <li>
-                Relatórios
-            </li>
-
-            <li>
-                Configurações
-            </li>
-
-            <li onclick="logout()">
+            <button class="logout-btn" onclick="logout()">
                 Sair
-            </li>
-
-            </ul>
+            </button>
 
         </aside>
 
+        <!-- CONTEÚDO -->
         <main class="main-content">
 
             <header class="topbar">
 
                 <div>
-
                     <h1>Entrevistas</h1>
+                    <p>Gerencie suas entrevistas</p>
+                </div>
 
-                    <p>
-                        Gerencie suas entrevistas
-                    </p>
+                <button class="btn-add">
+                    + Nova Entrevista
+                </button>
 
             </header>
 
-            <button>
-                + Nova Entrevista
-            </button>
+            <!-- CARDS -->
+            <div class="cards">
 
-    </div>
+                <div class="entrevista-card">
+                    <h3>Empresa</h3>
+                    <p>Nenhuma entrevista cadastrada</p>
+                </div>
 
-    <div class="cards">
+                <div class="entrevista-card">
+                    <h3>Data</h3>
+                    <p>--/--/----</p>
+                </div>
 
-        <div class="card">
+                <div class="entrevista-card">
+                    <h3>Horário</h3>
+                    <p>--:--</p>
+                </div>
 
-            <h3>Empresa</h3>
+                <div class="entrevista-card">
+                    <h3>Status</h3>
+                    <p>Pendente</p>
+                </div>
 
-            <p>Nenhuma entrevista cadastrada</p>
+            </div>
 
-        </div>
+            <!-- LISTA -->
+            <div class="box">
 
-        <div class="card">
+                <h2>Próximas Entrevistas</h2>
 
-            <h3>Data</h3>
+                <div id="listaEntrevistas">
+                    Carregando...
+                </div>
 
-            <p>--/--/----</p>
+            </div>
 
-        </div>
-
-        <div class="card">
-
-            <h3>Horário</h3>
-
-            <p>--:--</p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Status</h3>
-
-            <p>Pendente</p>
-
-        </div>
-
-    </div>
-
-    <div class="box">
-
-        <h2>Próximas Entrevistas</h2>
-
-        <div id="listaEntrevistas">
-            Carregando...
-        </div>
-
-    </div>
-
-    </main>
+        </main>
 
     </div>
 
@@ -157,6 +122,7 @@
         function logout() {
 
             localStorage.removeItem("user");
+            localStorage.removeItem("email");
 
             window.location.href = "index.html";
         }
@@ -166,9 +132,7 @@
             try {
 
                 const resposta =
-                    await fetch(
-                        `http://localhost:3000/vagas/${user}`
-                    );
+                    await fetch(`http://localhost:3000/vagas/${user}`);
 
                 const vagas =
                     await resposta.json();
@@ -179,9 +143,7 @@
                 lista.innerHTML = "";
 
                 const entrevistas =
-                    vagas.filter(vaga =>
-                        vaga.data_entrevista
-                    );
+                    vagas.filter(vaga => vaga.data_entrevista);
 
                 if (entrevistas.length === 0) {
 
@@ -195,24 +157,19 @@
 
                     lista.innerHTML += `
 
-                <div style="
-                    padding:15px;
-                    margin-bottom:10px;
-                    border:1px solid #ddd;
-                    border-radius:8px;
-                ">
+                    <div class="entrevista-item">
 
-                    <strong>${vaga.empresa}</strong><br>
+                        <strong>${vaga.empresa}</strong><br>
 
-                    Cargo: ${vaga.cargo}<br>
+                        Cargo: ${vaga.cargo}<br>
 
-                    Data: ${vaga.data_entrevista}<br>
+                        Data: ${vaga.data_entrevista}<br>
 
-                    Status: ${vaga.status}
+                        Status: ${vaga.status}
 
-                </div>
+                    </div>
 
-            `;
+                `;
 
                 });
 
@@ -220,7 +177,7 @@
 
             catch (erro) {
 
-                console.log(erro);
+                console.log("Erro ao carregar entrevistas:", erro);
 
             }
 
@@ -229,6 +186,7 @@
         carregarEntrevistas();
 
     </script>
+    ```
 
 </body>
 

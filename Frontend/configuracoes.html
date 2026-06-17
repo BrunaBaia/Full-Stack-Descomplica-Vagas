@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>🚀 Destrava Vagas</h2>
+            </div>
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="minhasvagas.html">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Minhas Vagas</span>
+                </a>
+
+                <a href="entrevistas.html">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Entrevistas</span>
+                </a>
+
+                <a href="comparadordevagas.html">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>Comparador</span>
+                </a>
+
+                <a href="relatorios.html">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Relatórios</span>
+                </a>
+
+                <a href="configuracoes.html" class="active">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
+
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Sair
+            </button>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Configurações</h1>
+                    <p>Gerencie sua conta</p>
+                </div>
+
+            </header>
+
+            <div class="config-box">
+
+                <div class="box">
+
+                    <h2>Perfil</h2>
+
+                    <p>
+                        <strong>Usuário:</strong>
+                        <span id="usuario"></span>
+                    </p>
+
+                    <br>
+
+                    <label>Foto de Perfil</label>
+
+                    <br><br>
+
+                    <input type="file">
+
+                </div>
+
+                <div class="box">
+
+                    <h2>Alterar Senha</h2>
+
+                    <input type="password" placeholder="Nova senha" class="input-config">
+
+                    <br><br>
+
+                    <input type="password" placeholder="Confirmar senha" class="input-config">
+
+                    <br><br>
+
+                    <button>
+                        Salvar Senha
+                    </button>
+
+                </div>
+
+                <div class="box">
+
+                    <h2>Sessão</h2>
+
+                    <p>
+                        Clique abaixo para encerrar sua sessão.
+                    </p>
+
+                    <br>
+
+                    <button class="logout-btn btn-sessao" onclick="logout()">
+
+                        Encerrar Sessão
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("usuario").innerText = user;
+
+        function logout() {
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("email");
+
+            window.location.href = "index.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
